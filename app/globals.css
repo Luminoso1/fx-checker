@@ -1,26 +1,45 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --neutral-900: #0a0a0a;
+  --neutral-700: #171719;
+  --neutral-600: #202022;
+  --neutral-500: #2e2e2e;
+  --neutral-400: #3d3d3d;
+  --neutral-300: #454547;
+  --neutral-200: #9d9d9d;
+  --neutral-100: #c6c6c6;
+  --neutral-50: #ffffff;
+
+  --lime-500: #cef739;
+  --lime-800: #283300;
+
+  --green-500: #42eb05;
+  --red-500: #ff4141;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--neutral-900);
+
+  --color-neutral-900: var(--neutral-900);
+  --color-neutral-700: var(--neutral-700);
+  --color-neutral-600: var(--neutral-600);
+  --color-neutral-500: var(--neutral-500);
+  --color-neutral-400: var(--neutral-400);
+  --color-neutral-300: var(--neutral-300);
+  --color-neutral-200: var(--neutral-200);
+  --color-neutral-100: var(--neutral-100);
+  --color-neutral-50: var(--neutral-50);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
     --foreground: #ededed;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--neutral-900);
+  color: var(--neutral-50);
+  font-family: 'JetBrains Mono', monospace;
 }
