@@ -51,7 +51,7 @@ const Select = ({
       </button>
 
       {isOpen && (
-        <div className="absolute w-sm mt-2 right-0 max-w-md bg-neutral-600 border border-neutral-400 rounded-lg p-2">
+        <div className="absolute z-10 w-sm mt-2 right-0 max-w-md bg-neutral-600 border border-neutral-400 rounded-lg p-2">
           {/* search currency */}
           <div className="border border-neutral-200 focus-within:outline rounded-md mb-2.5 px-3 flex gap-2.5 items-center">
             <span>🔍️</span>

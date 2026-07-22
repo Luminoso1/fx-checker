@@ -130,84 +130,81 @@ export default function Converter({ currencies }: { currencies: Currency[] }) {
   }, [base, quote])
 
   return (
-    <div>
-      {/* converter */}
-      <section className="max-w-275 mx-auto py-12 px-8">
-        <h2 className="uppercase text-xl mb-4">Check the rate</h2>
+    <section className="py-12 ">
+      <h2 className="uppercase text-xl mb-4">Check the rate</h2>
 
-        <div className="bg-neutral-700 p-5 rounded-2xl space-y-8">
-          <div className="flex gap-6 items-center">
-            {/* currency 'base' */}
-            <Rate title="send">
-              <div className="flex gap-2">
-                <div className="flex-1 inline-grid grid-cols-1 items-center text-4xl max-w-full overflow-hidden">
-                  <span className="col-start-1 row-start-1 invisible whitespace-pre px-1">
-                    {state.base.value}
-                  </span>
+      <div className="bg-neutral-700 p-5 rounded-2xl space-y-8">
+        <div className="flex gap-6 items-center">
+          {/* currency 'base' */}
+          <Rate title="send">
+            <div className="flex gap-2">
+              <div className="flex-1 inline-grid grid-cols-1 items-center text-4xl max-w-full overflow-hidden">
+                <span className="col-start-1 row-start-1 invisible whitespace-pre px-1">
+                  {state.base.value}
+                </span>
 
-                  <input
-                    type="text"
-                    value={state.base.value}
-                    onChange={(event) =>
-                      onChangeValue('base', event.target.value)
-                    }
-                    className="font-bold col-start-1 row-start-1 w-full bg-transparent px-1 outline-none hover:underline underline-offset-4"
-                  />
-                </div>
-                <Select
-                  param="base"
-                  current={state.base}
-                  initialCurrencies={currencies}
+                <input
+                  type="text"
+                  value={state.base.value}
+                  onChange={(event) =>
+                    onChangeValue('base', event.target.value)
+                  }
+                  className="font-bold col-start-1 row-start-1 w-full bg-transparent px-1 outline-none hover:underline underline-offset-4"
                 />
               </div>
-            </Rate>
+              <Select
+                param="base"
+                current={state.base}
+                initialCurrencies={currencies}
+              />
+            </div>
+          </Rate>
 
-            <SwitchButton onSwitch={handleSwitch} />
+          <SwitchButton onSwitch={handleSwitch} />
 
-            {/* currency 'quote' */}
-            <Rate title="receive">
-              <div className="flex gap-2">
-                <div className="flex-1 inline-grid grid-cols-1 items-center text-4xl max-w-full overflow-hidden">
-                  <span className="col-start-1 row-start-1 invisible whitespace-pre px-1">
-                    {state.quote.value}
-                  </span>
+          {/* currency 'quote' */}
+          <Rate title="receive">
+            <div className="flex gap-2">
+              <div className="flex-1 inline-grid grid-cols-1 items-center text-4xl max-w-full overflow-hidden">
+                <span className="col-start-1 row-start-1 invisible whitespace-pre px-1">
+                  {state.quote.value}
+                </span>
 
-                  <input
-                    type="text"
-                    value={state.quote.value}
-                    onChange={(event) =>
-                      onChangeValue('quote', event.target.value)
-                    }
-                    className="text-lime-500 font-bold col-start-1 row-start-1 w-full bg-transparent px-1 outline-none hover:underline underline-offset-4"
-                  />
-                </div>
-                <Select
-                  param="quote"
-                  current={state.quote}
-                  initialCurrencies={currencies}
+                <input
+                  type="text"
+                  value={state.quote.value}
+                  onChange={(event) =>
+                    onChangeValue('quote', event.target.value)
+                  }
+                  className="text-lime-500 font-bold col-start-1 row-start-1 w-full bg-transparent px-1 outline-none hover:underline underline-offset-4"
                 />
               </div>
-            </Rate>
+              <Select
+                param="quote"
+                current={state.quote}
+                initialCurrencies={currencies}
+              />
+            </div>
+          </Rate>
+        </div>
+
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="text-xs">
+              1 {base} = {state.rate} {quote}
+            </p>
           </div>
-
-          <div className="flex justify-between items-center">
-            <div>
-              <p className="text-xs">
-                1 {base} = {state.rate} {quote}
-              </p>
-            </div>
-            <div className="space-x-3">
-              <button className="cursor-pointer bg-lime-500 px-3 py-2 uppercase text-black rounded-lg font-medium text-xs">
-                Favorited
-              </button>
-              <button className="cursor-pointer border border-lime-500 px-3 py-2 uppercase text-neutral-50 rounded-lg font-medium text-xs">
-                Log Conversion
-              </button>
-            </div>
+          <div className="space-x-3">
+            <button className="cursor-pointer bg-lime-500 px-3 py-2 uppercase text-black rounded-lg font-medium text-xs">
+              Favorited
+            </button>
+            <button className="cursor-pointer border border-lime-500 px-3 py-2 uppercase text-neutral-50 rounded-lg font-medium text-xs">
+              Log Conversion
+            </button>
           </div>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
   )
 }
 
