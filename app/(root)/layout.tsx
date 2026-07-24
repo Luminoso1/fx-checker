@@ -8,7 +8,7 @@ export default async function Layout({
 }>) {
   const currencies = await getCurrencies()
   return (
-    <div className="">
+    <div className="max-w-275 mx-auto px-8">
       <Converter currencies={currencies} />
       {children}
     </div>

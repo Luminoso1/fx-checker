@@ -5,3 +5,19 @@ export interface Currency {
   endDate: string
   flag: string
 }
+
+export interface History {
+  date: string
+  base: string
+  quote: string
+  rate: number
+}
+
+export type From = '1D' | '1W' | '1M' | '3M' | '1Y' | '5Y'
+
+export interface SearchParamsPage {
+  from: From
+  amount: string
+  base: string
+  quote: string
+}

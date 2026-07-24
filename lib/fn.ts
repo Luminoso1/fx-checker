@@ -1,4 +1,4 @@
-import { Currency } from '@/types'
+import { Currency, History } from '@/types'
 
 const API_BASE = 'https://api.frankfurter.dev/v2'
 
@@ -46,7 +46,6 @@ export const getRate = async (base: string, quote: string) => {
 }
 
 export const getCurrencies = async () => {
-  console.log('currencies')
   try {
     const response = await fetch(`${API_BASE}/currencies`, {
       next: { revalidate: 86400 },
@@ -75,7 +74,24 @@ export const getCurrencies = async () => {
 
     return currencies
   } catch (error) {
-    console.error('Error fetching rate on server:', error)
+    console.error('Error fetching rate:', error)
+    return []
+  }
+}
+
+export const getHistory = async (from: string, base: string, quote: string) => {
+  try {
+    const response = await fetch(
+      `${API_BASE}/rates?from=${from}&base=${base}&quotes=${quote}`,
+    )
+
+    if (!response.ok) return []
+
+    const data: History[] = await response.json()
+
+    return data
+  } catch (error) {
+    console.error('Error fetching history rates:', error)
     return []
   }
 }
