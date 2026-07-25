@@ -40,7 +40,7 @@ export const getDate = (from: From) => {
 }
 
 function Menu({ searchParams }: { searchParams: SearchParamsPage }) {
-  const currentFrom = searchParams.from || '1D'
+  const currentFrom = searchParams.from ?? '1M'
 
   const createQueryString = (key: string, value: string) => {
     const params = new URLSearchParams()
