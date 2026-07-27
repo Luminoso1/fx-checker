@@ -4,39 +4,28 @@ import { cn } from '@/lib/utils'
 
 const links: From[] = ['1D', '1W', '1M', '3M', '1Y', '5Y']
 
+const DAY_IN_MS = 24 * 60 * 60 * 1000
+const formatter = new Intl.DateTimeFormat('en-CA', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+})
+
+const daysMap: Record<From, number> = {
+  '1D': 1,
+  '1W': 7,
+  '1M': 30,
+  '3M': 90,
+  '1Y': 365,
+  '5Y': 1825,
+}
+
 export const getDate = (from: From) => {
-  let formatted
-  switch (from) {
-    case '1D':
-      formatted = '2026-07-23'
-      break
+  const days = daysMap[from] ?? 30
 
-    case '1W':
-      formatted = '2026-07-18'
-      break
+  const date = new Date(Date.now() - days * DAY_IN_MS)
 
-    case '1M':
-      formatted = '2026-06-24'
-      break
-
-    case '3M':
-      formatted = '2026-04-24'
-      break
-
-    case '1Y':
-      formatted = '2025-07-24'
-      break
-
-    case '5Y':
-      formatted = '2021-07-24'
-      break
-
-    default:
-      formatted = '2026-06-24'
-      break
-  }
-
-  return formatted
+  return formatter.format(date)
 }
 
 function Menu({ searchParams }: { searchParams: SearchParamsPage }) {
