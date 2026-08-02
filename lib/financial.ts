@@ -25,7 +25,14 @@ export const formatCurrency = (value: number) => {
 }
 
 export const formatDate = (dateStr: string) => {
-  const date = new Date(dateStr)
+  const [year, month, day] = dateStr.split('-').map(Number)
+
+  const now = new Date()
+  const hours = now.getHours()
+  const minutes = now.getMinutes()
+
+  const date = new Date(year, month - 1, day, hours, minutes)
+
   return new Intl.DateTimeFormat('en-US', {
     month: 'short',
     day: 'numeric',
