@@ -30,7 +30,7 @@ const Navigation = () => {
                 aria-current={isActive ? 'page' : undefined}
                 className={cn(
                   'px-4 py-2 tracking-[1px]  uppercase font-semibold',
-                  'border-b block',
+                  'outlined rounded-sm border-b block',
                   isActive
                     ? 'border-lime-500'
                     : 'border-transparent text-neutral-400 hover:text-neutral-200',

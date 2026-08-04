@@ -43,7 +43,9 @@ function Menu() {
               href={`?${getQuery('from', value)}`}
               scroll={false}
               className={cn(
-                'block px-4 py-3 text-xs transition-colors rounded-lg',
+                'block px-4 py-3 text-xs ',
+                'outlined rounded-lg',
+                'transition-colors',
                 isActive
                   ? 'bg-neutral-500 text-neutral-50'
                   : 'text-neutral-200',

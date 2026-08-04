@@ -4,7 +4,7 @@ export default function SwitchButton({ onSwitch }: { onSwitch: () => void }) {
       type="button"
       aria-label="switch base and quote currencies"
       onClick={onSwitch}
-      className="size-12 rounded-lg cursor-pointer border border-neutral-500 bg-neutral-600 grid place-content-center"
+      className="outlined size-12 rounded-lg cursor-pointer border border-neutral-500 bg-neutral-600 grid place-content-center"
     >
       <svg
         aria-hidden="true"

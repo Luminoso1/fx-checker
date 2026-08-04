@@ -83,7 +83,7 @@ const Select = ({
         aria-expanded={isOpen}
         aria-label={`Select currency, current is ${current.name}`}
         onClick={handleToggle}
-        className="h-full p-2 bg-neutral-500 border border-neutral-400 rounded-lg flex items-center gap-2"
+        className="outlined h-full p-2 bg-neutral-500 border border-neutral-400 rounded-lg flex items-center gap-2"
       >
         <span aria-hidden="true">
           {current.flag} {current.code}

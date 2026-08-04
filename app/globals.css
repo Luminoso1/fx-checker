@@ -32,14 +32,27 @@
   --color-neutral-50: var(--neutral-50);
 }
 
+@layer base {
+  body {
+    background: var(--neutral-900);
+    color: var(--neutral-50);
+    font-family: 'JetBrains Mono', monospace;
+  }
+}
+
+@layer components {
+  .outlined {
+    outline: none;
+    outline-offset: 2px;
+
+    &:focus {
+      outline: 2px solid var(--lime-500);
+    }
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground: #ededed;
   }
-}
-
-body {
-  background: var(--neutral-900);
-  color: var(--neutral-50);
-  font-family: 'JetBrains Mono', monospace;
 }

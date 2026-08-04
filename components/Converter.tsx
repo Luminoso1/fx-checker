@@ -146,7 +146,7 @@ export default function Converter({ currencies }: { currencies: Currency[] }) {
                 inputMode="decimal"
                 value={state.base.value ?? '0'}
                 onChange={onChangeValue}
-                className="flex-1 shrink-0 font-bold w-full outline-none hover:underline underline-offset-4 text-[32px] md:text-[40px]"
+                className="outlined rounded-lg flex-1 shrink-0 font-bold w-full hover:underline underline-offset-4 text-[32px] md:text-[40px]"
               />
               <Select
                 param="base"
@@ -174,7 +174,7 @@ export default function Converter({ currencies }: { currencies: Currency[] }) {
                 aria-label={`Amount to receive in ${state.quote.name}`}
                 value={state.quote.value ?? '0'}
                 onChange={onChangeValue}
-                className="text-lime-500 flex-1 shrink-0 font-bold w-full outline-none hover:underline underline-offset-4 text-[32px] md:text-[40px]"
+                className="outlined rounded-lg text-lime-500 flex-1 shrink-0 font-bold w-full hover:underline underline-offset-4 text-[32px] md:text-[40px]"
               />
               <Select
                 param="quote"
@@ -194,13 +194,13 @@ export default function Converter({ currencies }: { currencies: Currency[] }) {
           <div className="space-x-3">
             <button
               type="button"
-              className="cursor-pointer bg-lime-500 px-3 py-2 uppercase text-black rounded-lg font-medium text-xs"
+              className="outlined cursor-pointer bg-lime-500 px-3 py-2 uppercase text-black rounded-lg font-medium text-xs"
             >
               Favorited
             </button>
             <button
               type="button"
-              className="cursor-pointer border border-lime-500 px-3 py-2 uppercase text-neutral-50 rounded-lg font-medium text-xs"
+              className="outlined cursor-pointer border border-lime-500 px-3 py-2 uppercase text-neutral-50 rounded-lg font-medium text-xs"
             >
               Log Conversion
             </button>
