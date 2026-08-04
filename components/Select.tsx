@@ -1,7 +1,8 @@
-import { useState, useCallback, useMemo } from 'react'
-import { useSearchParams, usePathname, useRouter } from 'next/navigation'
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useSearch } from '@/hooks/useSearch'
+import { cn } from '@/lib/utils'
 
-import { Currency } from '@//types'
+import { Currency } from '@/types'
 import Arrow from './Arrow'
 
 const Select = ({
@@ -13,12 +14,13 @@ const Select = ({
   current: Currency
   initialCurrencies: Currency[]
 }) => {
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const router = useRouter()
+  const { setParam } = useSearch()
+  const { query, currencies, setQuery } = useCurrencies(initialCurrencies)
 
   const [isOpen, setIsOpen] = useState(false)
-  const { query, setQuery, currencies } = useCurrencies(initialCurrencies)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const handleToggle = useCallback(() => {
     setIsOpen((prev) => !prev)
@@ -26,38 +28,85 @@ const Select = ({
 
   const handleSelect = useCallback(
     (code: string) => {
-      const params = new URLSearchParams(searchParams.toString())
-      params.set(param, code)
-      router.push(`${pathname}?${params.toString()}`, { scroll: false })
+      setParam(param, code)
 
       setIsOpen(false)
       setQuery('')
     },
-    [param, router, searchParams, pathname, setQuery],
+    [param, setQuery, setParam],
   )
 
+  // close menu with 'ESC'
+  useEffect(() => {
+    const handleKeydownEsc = (event: KeyboardEvent) => {
+      const key = event.key
+      if (key === 'Escape' && isOpen) {
+        setIsOpen(false)
+        buttonRef.current?.focus()
+      }
+    }
+
+    if (isOpen) {
+      document.addEventListener('keydown', handleKeydownEsc)
+    }
+    return () => document.removeEventListener('keydown', handleKeydownEsc)
+  }, [isOpen])
+
+  // close menu when click outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  // auto focus input when menu search is open
+  useEffect(() => {
+    if (isOpen && inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [isOpen])
+
   return (
-    <div className="relative">
+    <div ref={containerRef} className="shrink-0 relative">
       <button
-        className="p-2 bg-neutral-500 border border-neutral-400 rounded-lg flex items-center gap-2"
+        ref={buttonRef}
+        type="button"
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        aria-label={`Select currency, current is ${current.name}`}
         onClick={handleToggle}
+        className="h-full p-2 bg-neutral-500 border border-neutral-400 rounded-lg flex items-center gap-2"
       >
-        <span>
+        <span aria-hidden="true">
           {current.flag} {current.code}
         </span>
         <Arrow
-          className={`${isOpen ? 'rotate-180' : ''} transition-all duration-300`}
+          className={cn('transition-all duration-300', isOpen && 'rotate-180')}
         />
       </button>
 
       {isOpen && (
-        <div className="absolute z-10 w-sm mt-2 right-0 max-w-md bg-neutral-600 border border-neutral-400 rounded-lg p-2">
+        <div
+          role="listbox"
+          className="absolute z-10 w-77.5 sm:w-93.75 mt-2 -right-4 max-w-md bg-neutral-600 border border-neutral-400 rounded-lg p-2"
+        >
           {/* search currency */}
           <div className="border border-neutral-200 focus-within:outline rounded-md mb-2.5 px-3 flex gap-2.5 items-center">
-            <span>🔍️</span>
+            <span aria-hidden="true">🔍️</span>
             <input
-              placeholder="Colombian Peso..."
-              className="flex-1 py-2.5 outline-none"
+              ref={inputRef}
+              type="text"
+              aria-label="Search currencies by name or code"
+              placeholder="Search currencies..."
+              className="flex-1 py-2.5 outline-none placeholder:text-xs"
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -71,15 +120,22 @@ const Select = ({
               return (
                 <button
                   key={code}
+                  type="button"
+                  role="option"
+                  aria-selected={isSelected}
                   onClick={() => handleSelect(code)}
-                  className={`text-left p-2 rounded-md hover:bg-neutral-800 transition-colors px-2 py-3 flex justify-between ${
+                  className={cn(
+                    'text-left p-2 rounded-md px-2 py-3 flex justify-between',
+                    'hover:bg-neutral-800 transition-colors ',
                     isSelected
                       ? 'bg-neutral-800 font-bold text-teal-400'
-                      : 'text-neutral-300'
-                  }`}
+                      : 'text-neutral-300',
+                  )}
                 >
                   <span className="flex gap-3 items-center">
-                    {flag}
+                    <span className="text-sm" aria-hidden="true">
+                      {flag}
+                    </span>
                     <span className="text-neutral-50 text-sm">{code}</span>
                     <span className="text-neutral-200 text-xs">{name}</span>
                   </span>
@@ -90,6 +146,7 @@ const Select = ({
                       width="24"
                       height="24"
                       viewBox="0 0 24 24"
+                      aria-hidden="true"
                     >
                       <path
                         fill="#ffffff"
