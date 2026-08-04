@@ -1,6 +1,6 @@
 'use client'
 
-import { History } from '@/types'
+import { Rate } from '@/types'
 import { Line } from 'react-chartjs-2'
 import {
   Chart as ChartJS,
@@ -116,7 +116,7 @@ const options: ChartOptions<'line'> = {
   },
 }
 
-const HistoryChart = ({ rates }: { rates: History[] }) => {
+const HistoryChart = ({ rates }: { rates: Rate[] }) => {
   const data: ChartData<'line'> = {
     labels: rates.map((rate) => rate.date),
     datasets: [

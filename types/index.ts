@@ -6,7 +6,7 @@ export interface Currency {
   flag: string
 }
 
-export interface History {
+export interface Rate {
   date: string
   base: string
   quote: string

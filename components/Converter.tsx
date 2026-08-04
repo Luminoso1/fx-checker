@@ -1,6 +1,5 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
-import { useSearchParams, usePathname, useRouter } from 'next/navigation'
 
 import { Currency } from '@/types'
 import SwitchButton from '@/components/SwitchButton'
@@ -9,6 +8,8 @@ import Select from '@/components/Select'
 import { getRate } from '@/lib/fn'
 import { formatLocaleAmount } from '@/lib/utils'
 
+import { useSearch } from '@/hooks/useSearch'
+
 interface State {
   base: Currency & { value: string }
   quote: Currency & { value: string }
@@ -16,13 +17,7 @@ interface State {
 }
 
 export default function Converter({ currencies }: { currencies: Currency[] }) {
-  const searchParams = useSearchParams()
-  const pathname = usePathname()
-  const router = useRouter()
-
-  const base = searchParams.get('base') ?? 'USD'
-  const quote = searchParams.get('quote') ?? 'EUR'
-  const amount = searchParams.get('amount') ?? '1'
+  const { base, quote, amount, setParam, switchCodes } = useSearch()
 
   const findCurrency = useCallback(
     (code: string, fallbackName: string, fallbackFlag: string) => {
@@ -56,7 +51,12 @@ export default function Converter({ currencies }: { currencies: Currency[] }) {
     }
   })
 
-  const onChangeValue = (key: 'base' | 'quote', value: string) => {
+  const onChangeValue: React.ChangeEventHandler<
+    HTMLInputElement,
+    HTMLInputElement
+  > = (event) => {
+    const { name, value } = event.target
+
     const sanitizedVal = value.replace(/[-+e]/gi, '')
     const sanitizedNum = Number(sanitizedVal)
 
@@ -64,10 +64,10 @@ export default function Converter({ currencies }: { currencies: Currency[] }) {
 
     const rateNum = Number(state.rate)
     const converted =
-      key === 'base' ? sanitizedNum * rateNum : sanitizedNum / rateNum
+      name === 'base' ? sanitizedNum * rateNum : sanitizedNum / rateNum
 
     setState((prev) => {
-      if (key === 'base') {
+      if (name === 'base') {
         return {
           ...prev,
           base: { ...prev.base, value: sanitizedVal },
@@ -82,12 +82,9 @@ export default function Converter({ currencies }: { currencies: Currency[] }) {
       }
     })
 
-    const params = new URLSearchParams(searchParams.toString())
-    params.set(
-      'amount',
-      key === 'base' ? sanitizedNum.toFixed(2) : converted.toFixed(2),
-    )
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+    const newAmountValue = name === 'base' ? sanitizedNum : converted
+
+    setParam('amount', newAmountValue.toFixed(2))
   }
 
   const handleSwitch = () => {
@@ -99,10 +96,7 @@ export default function Converter({ currencies }: { currencies: Currency[] }) {
       quote: { ...currentBase, value: prev.quote.value },
     }))
 
-    const params = new URLSearchParams(searchParams.toString())
-    params.set('base', currentQuote.code)
-    params.set('quote', currentBase.code)
-    router.push(`${pathname}?${params.toString()}`, { scroll: false })
+    switchCodes()
   }
 
   useEffect(() => {
@@ -130,89 +124,89 @@ export default function Converter({ currencies }: { currencies: Currency[] }) {
   }, [base, quote])
 
   return (
-    <section className="py-12 ">
+    <section className="w-full md:pt-12 lg:pb-8 pt-8 pb-10">
       <h2 className="uppercase text-xl mb-4">Check the rate</h2>
 
-      <div className="bg-neutral-700 p-5 rounded-2xl space-y-8">
-        <div className="flex gap-6 items-center">
+      <div className="bg-neutral-700 p-4 sm:p-5 rounded-2xl space-y-8 max-w-full">
+        <div className="flex flex-col sm:flex-row gap-x-6 gap-y-4 items-center">
           {/* currency 'base' */}
-          <Rate title="send">
-            <div className="flex gap-2">
-              <div className="flex-1 inline-grid grid-cols-1 items-center text-4xl max-w-full overflow-hidden">
-                <span className="col-start-1 row-start-1 invisible whitespace-pre px-1">
-                  {state.base.value}
-                </span>
-
-                <input
-                  type="text"
-                  value={state.base.value}
-                  onChange={(event) =>
-                    onChangeValue('base', event.target.value)
-                  }
-                  className="font-bold col-start-1 row-start-1 w-full bg-transparent px-1 outline-none hover:underline underline-offset-4"
-                />
-              </div>
+          <div className="flex-1 bg-neutral-600 border border-neutral-500 p-4 sm:p-5 rounded-2xl">
+            <label
+              className="uppercase text-sm text-neutral-100 mb-2"
+              htmlFor="base"
+            >
+              Send
+            </label>
+            <div className="flex items-center justify-between gap-2">
+              <input
+                type="text"
+                name="base"
+                id="base"
+                aria-label={`Amount to send in ${state.base.name}`}
+                inputMode="decimal"
+                value={state.base.value ?? '0'}
+                onChange={onChangeValue}
+                className="flex-1 shrink-0 font-bold w-full outline-none hover:underline underline-offset-4 text-[32px] md:text-[40px]"
+              />
               <Select
                 param="base"
                 current={state.base}
                 initialCurrencies={currencies}
               />
             </div>
-          </Rate>
+          </div>
 
           <SwitchButton onSwitch={handleSwitch} />
 
           {/* currency 'quote' */}
-          <Rate title="receive">
-            <div className="flex gap-2">
-              <div className="flex-1 inline-grid grid-cols-1 items-center text-4xl max-w-full overflow-hidden">
-                <span className="col-start-1 row-start-1 invisible whitespace-pre px-1">
-                  {state.quote.value}
-                </span>
-
-                <input
-                  type="text"
-                  value={state.quote.value}
-                  onChange={(event) =>
-                    onChangeValue('quote', event.target.value)
-                  }
-                  className="text-lime-500 font-bold col-start-1 row-start-1 w-full bg-transparent px-1 outline-none hover:underline underline-offset-4"
-                />
-              </div>
+          <div className="flex-1 bg-neutral-600 border border-neutral-500 p-4 sm:p-5 rounded-2xl">
+            <label
+              className="uppercase text-sm text-neutral-100 mb-2"
+              htmlFor="quote"
+            >
+              Receive
+            </label>
+            <div className="flex items-center justify-between gap-2">
+              <input
+                type="text"
+                name="quote"
+                id="quote"
+                aria-label={`Amount to receive in ${state.quote.name}`}
+                value={state.quote.value ?? '0'}
+                onChange={onChangeValue}
+                className="text-lime-500 flex-1 shrink-0 font-bold w-full outline-none hover:underline underline-offset-4 text-[32px] md:text-[40px]"
+              />
               <Select
                 param="quote"
                 current={state.quote}
                 initialCurrencies={currencies}
               />
             </div>
-          </Rate>
+          </div>
         </div>
 
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row gap-y-4 justify-between items-center">
           <div>
             <p className="text-xs">
               1 {base} = {state.rate} {quote}
             </p>
           </div>
           <div className="space-x-3">
-            <button className="cursor-pointer bg-lime-500 px-3 py-2 uppercase text-black rounded-lg font-medium text-xs">
+            <button
+              type="button"
+              className="cursor-pointer bg-lime-500 px-3 py-2 uppercase text-black rounded-lg font-medium text-xs"
+            >
               Favorited
             </button>
-            <button className="cursor-pointer border border-lime-500 px-3 py-2 uppercase text-neutral-50 rounded-lg font-medium text-xs">
+            <button
+              type="button"
+              className="cursor-pointer border border-lime-500 px-3 py-2 uppercase text-neutral-50 rounded-lg font-medium text-xs"
+            >
               Log Conversion
             </button>
           </div>
         </div>
       </div>
     </section>
-  )
-}
-
-const Rate = (props: { title: string; children: React.ReactNode }) => {
-  return (
-    <div className="flex-1 bg-neutral-600 border border-neutral-500 p-5 rounded-2xl">
-      <h3 className="uppercase text-sm text-neutral-100 mb-2">{props.title}</h3>
-      {props.children}
-    </div>
   )
 }

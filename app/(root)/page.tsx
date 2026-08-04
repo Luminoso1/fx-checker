@@ -1,22 +1,14 @@
-import { getHistory } from '@/lib/fn'
+'use client'
 import { calculateMetrics, formatDate } from '@/lib/financial'
 import HistoryChart from '@/components/HistoryChart'
-import Menu, { getDate } from '@/components/Menu'
+import Menu from '@/components/Menu'
 import { StatCard, TrendValue } from '@/components/StatCard'
-import { SearchParamsPage } from '@/types'
+import { useSearch } from '@/hooks/useSearch'
+import { useHistory } from '@/hooks/useHistory'
 
-export default async function Page({
-  searchParams,
-}: {
-  searchParams: Promise<SearchParamsPage>
-}) {
-  const resolvedParams = await searchParams
-
-  const base = resolvedParams.base ?? 'USD'
-  const quote = resolvedParams.quote ?? 'EUR'
-  const from = getDate(resolvedParams.from ?? '1M')
-
-  const data = await getHistory(from, base, quote)
+export default function Page() {
+  const { base, quote } = useSearch()
+  const { data } = useHistory()
 
   const metrics = calculateMetrics(data)
 
@@ -31,8 +23,8 @@ export default async function Page({
   return (
     <section>
       {/* stats  & menu */}
-      <div className="flex justify-between items-center mb-5">
-        <div className="flex gap-x-4 ">
+      <div className="flex flex-col lg:flex-row justify-between lg:items-center items-start mb-5 gap-y-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-4 gap-x-4">
           <StatCard label="open" value={metrics.open} />
 
           <StatCard label="last" value={metrics.last} />
@@ -48,7 +40,7 @@ export default async function Page({
           />
         </div>
 
-        <Menu searchParams={resolvedParams} />
+        <Menu />
       </div>
 
       {/* chart */}
