@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { Currency } from '@/types'
 import SwitchButton from '@/components/SwitchButton'
 import Select from '@/components/Select'
+import { Button } from '@/components/ui/button'
 
 import { getRate } from '@/lib/fn'
 import { formatLocaleAmount } from '@/lib/utils'
@@ -192,18 +193,12 @@ export default function Converter({ currencies }: { currencies: Currency[] }) {
             </p>
           </div>
           <div className="space-x-3">
-            <button
-              type="button"
-              className="outlined cursor-pointer bg-lime-500 px-3 py-2 uppercase text-black rounded-lg font-medium text-xs"
-            >
+            <Button className="bg-lime-500 px-3 py-2 uppercase text-black font-medium text-xs">
               Favorited
-            </button>
-            <button
-              type="button"
-              className="outlined cursor-pointer border border-lime-500 px-3 py-2 uppercase text-neutral-50 rounded-lg font-medium text-xs"
-            >
+            </Button>
+            <Button className="border border-lime-500 px-3 py-2 uppercase text-neutral-50 font-medium text-xs">
               Log Conversion
-            </button>
+            </Button>
           </div>
         </div>
       </div>

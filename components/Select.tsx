@@ -1,9 +1,11 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useSearch } from '@/hooks/useSearch'
+import { Button } from '@/components/ui/button'
+import { Arrow } from '@/components/icons/arrow'
+import { Check } from '@/components/icons/check'
 import { cn } from '@/lib/utils'
 
 import { Currency } from '@/types'
-import Arrow from './Arrow'
 
 const Select = ({
   param,
@@ -76,7 +78,7 @@ const Select = ({
 
   return (
     <div ref={containerRef} className="shrink-0 relative">
-      <button
+      <Button
         ref={buttonRef}
         type="button"
         aria-haspopup="listbox"
@@ -91,7 +93,7 @@ const Select = ({
         <Arrow
           className={cn('transition-all duration-300', isOpen && 'rotate-180')}
         />
-      </button>
+      </Button>
 
       {isOpen && (
         <div
@@ -118,9 +120,8 @@ const Select = ({
               const { code, name, flag } = c
               const isSelected = current.code === code
               return (
-                <button
+                <Button
                   key={code}
-                  type="button"
                   role="option"
                   aria-selected={isSelected}
                   onClick={() => handleSelect(code)}
@@ -140,21 +141,8 @@ const Select = ({
                     <span className="text-neutral-200 text-xs">{name}</span>
                   </span>
 
-                  {isSelected && (
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      width="24"
-                      height="24"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        fill="#ffffff"
-                        d="M18.9 8.1L9 18l-4.95-4.95l.71-.71L9 16.59l9.19-9.2z"
-                      ></path>
-                    </svg>
-                  )}
-                </button>
+                  {isSelected && <Check />}
+                </Button>
               )
             })}
           </div>

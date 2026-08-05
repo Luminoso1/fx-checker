@@ -1,6 +1,31 @@
 import { SVGProps } from 'react'
 
-const Arrow = (props: SVGProps<SVGSVGElement>) => {
+type Props = SVGProps<SVGSVGElement>
+
+export const Arrows = (props: Props) => {
+  return (
+    <svg
+      aria-hidden="true"
+      xmlns="http://www.w3.org/2000/svg"
+      width="28"
+      height="28"
+      viewBox="0 0 24 24"
+      {...props}
+    >
+      <g
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeWidth="1"
+      >
+        <path d="M4 16h13m3-8H7"></path>
+        <path strokeLinejoin="round" d="m8 12l-4 4l4 4m8-8l4-4l-4-4"></path>
+      </g>
+    </svg>
+  )
+}
+
+export const Arrow = (props: Props) => {
   return (
     <svg
       width="15"
@@ -19,5 +44,3 @@ const Arrow = (props: SVGProps<SVGSVGElement>) => {
     </svg>
   )
 }
-
-export default Arrow
