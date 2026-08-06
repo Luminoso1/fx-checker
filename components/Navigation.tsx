@@ -9,6 +9,7 @@ const routes = [
 ]
 
 const Navigation = () => {
+  console.log('hello navigation')
   const searchParams = useSearchParams()
   const pathname = usePathname()
 

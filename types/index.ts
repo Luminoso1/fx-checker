@@ -15,9 +15,8 @@ export interface Rate {
 
 export type From = '1D' | '1W' | '1M' | '3M' | '1Y' | '5Y'
 
-export interface SearchParamsPage {
-  from: From
-  amount: string
-  base: string
-  quote: string
+export interface State {
+  base: Currency & { value: string }
+  quote: Currency & { value: string }
+  rate: string
 }
