@@ -9,14 +9,13 @@ const routes = [
 ]
 
 const Navigation = () => {
-  console.log('hello navigation')
   const searchParams = useSearchParams()
   const pathname = usePathname()
 
   const setRoutePath = (path: string) => {
     const params = new URLSearchParams(searchParams.toString())
     const searchString = params.toString()
-    return searchParams ? `${path}?${searchString}` : path
+    return searchString ? `${path}?${searchString}` : path
   }
 
   return (

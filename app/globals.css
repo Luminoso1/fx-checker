@@ -30,6 +30,12 @@
   --color-neutral-200: var(--neutral-200);
   --color-neutral-100: var(--neutral-100);
   --color-neutral-50: var(--neutral-50);
+
+  --color-lime-500: var(--lime-500);
+  --color-lime-800: var(--lime-800);
+
+  --color-green-500: var(--green-500);
+  --color-red-500: var(--red-500);
 }
 
 @layer base {

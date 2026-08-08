@@ -101,7 +101,7 @@ const Select = ({
           className="absolute z-10 w-77.5 sm:w-93.75 mt-2 -right-4 max-w-md bg-neutral-600 border border-neutral-400 rounded-lg p-2"
         >
           {/* search currency */}
-          <div className="border border-neutral-200 focus-within:outline rounded-md mb-2.5 px-3 flex gap-2.5 items-center">
+          <div className="focus-within:outline-2 outline-lime-500 focus-within:border-transparent border border-neutral-200 rounded-md mb-2.5 px-3 flex gap-2.5 items-center">
             <span aria-hidden="true">🔍️</span>
             <input
               ref={inputRef}
@@ -115,7 +115,10 @@ const Select = ({
           </div>
 
           {/* currencies */}
-          <div className="border border-neutral-800 rounded-lg flex flex-col gap-0 max-h-100 overflow-y-auto">
+          <div
+            className="rounded-lg flex flex-col gap-0 max-h-100 overflow-y-auto overflow-x-visible p-1"
+            tabIndex={-1}
+          >
             {currencies.map((c) => {
               const { code, name, flag } = c
               const isSelected = current.code === code
@@ -126,7 +129,8 @@ const Select = ({
                   aria-selected={isSelected}
                   onClick={() => handleSelect(code)}
                   className={cn(
-                    'text-left p-2 rounded-md px-2 py-3 flex justify-between',
+                    'outlined',
+                    'text-left rounded-md px-2 py-3 flex justify-between',
                     'hover:bg-neutral-800 transition-colors ',
                     isSelected
                       ? 'bg-neutral-800 font-bold text-teal-400'

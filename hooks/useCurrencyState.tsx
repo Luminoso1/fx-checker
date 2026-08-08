@@ -32,12 +32,13 @@ export const useCurrencyState = (currencies: Currency[]) => {
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
 
-    const sanitizedVal = value.replace(/[-+e]/gi, '')
+    const sanitizedVal = value.replace(/[-+e,]/gi, '')
     const sanitizedNum = Number(sanitizedVal)
 
     if (isNaN(sanitizedNum)) return
 
     const rateNum = Number(rate)
+
     if (name === 'base') {
       setBaseValue(sanitizedVal)
       setQuoteValue(formatLocaleAmount(sanitizedNum * rateNum))
