@@ -1,15 +1,15 @@
 import { cn } from '@/lib/utils'
 import Select from './select'
-import { Currency } from '@/types'
+import { Currency, Field } from '@/types'
 
 interface Props {
   label: 'send' | 'receive'
-  name: 'base' | 'quote'
+  name: Field
   value: string
-  className: string
+  className?: string
   currency: Currency
   currencies: Currency[]
-  onChange: () => void
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const CurrencyCard = ({

@@ -3,7 +3,7 @@ import { Field } from '@/types'
 
 const DEFAULTS = {
   base: 'USD',
-  quote: 'EUR',
+  quote: 'COP',
   amount: '1',
   from: '1M',
 } as const

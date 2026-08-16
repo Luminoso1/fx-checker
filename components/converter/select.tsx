@@ -5,14 +5,14 @@ import { Arrow } from '@/components/icons/arrow'
 import { Check } from '@/components/icons/check'
 import { cn } from '@/lib/utils'
 
-import { Currency } from '@/types'
+import { Currency, Field } from '@/types'
 
 const Select = ({
   param,
   current,
   initialCurrencies,
 }: {
-  param: 'base' | 'quote'
+  param: Field
   current: Currency
   initialCurrencies: Currency[]
 }) => {
