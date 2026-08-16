@@ -15,33 +15,3 @@ export const calculateMetrics = (data: { date: string; rate: number }[]) => {
     percentage,
   }
 }
-
-export const formatCurrency = (value: number) => {
-  return new Intl.NumberFormat('en-US', {
-    signDisplay: 'exceptZero',
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 4,
-  }).format(value)
-}
-
-export const formatDate = (dateStr: string) => {
-  const [year, month, day] = dateStr.split('-').map(Number)
-
-  const now = new Date()
-  const hours = now.getHours()
-  const minutes = now.getMinutes()
-
-  const date = new Date(year, month - 1, day, hours, minutes)
-
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-    timeZoneName: 'short',
-  })
-    .format(date)
-    .replace(',', '')
-    .toUpperCase()
-}

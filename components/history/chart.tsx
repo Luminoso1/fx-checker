@@ -2,6 +2,9 @@
 
 import { Rate } from '@/types'
 import { Line } from 'react-chartjs-2'
+
+import { formatMediumDate, formatSmallDate } from '@/lib/formatting'
+
 import {
   Chart as ChartJS,
   ChartData,
@@ -51,22 +54,15 @@ const options: ChartOptions<'line'> = {
 
           const rawDate = items[0].label
           const date = new Date(`${rawDate}T00:00:00`)
-          return new Intl.DateTimeFormat('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric',
-          }).format(date)
+
+          return formatMediumDate(date)
         },
         label: (context) => {
           const rawValue = context.parsed.y
 
           if (rawValue === null || rawValue === undefined) return ''
 
-          const value = new Intl.NumberFormat('en-US', {
-            maximumFractionDigits: 4,
-          }).format(rawValue)
-
-          return `Change: ${value}`
+          return `Change: ${rawValue}`
         },
       },
     },
@@ -94,11 +90,8 @@ const options: ChartOptions<'line'> = {
             const rawDate = this.getLabelForValue(value as number)
             const date = new Date(`${rawDate}T00:00:00`)
 
-            return new Intl.DateTimeFormat('en-US', {
-              month: 'short',
-              day: 'numeric',
-              year: 'numeric',
-            }).format(date)
+            // from: Wed Jan 01 2025 00:00:00 -> Jan 1, 2025
+            return formatSmallDate(date)
           }
 
           return null
@@ -147,6 +140,7 @@ const HistoryChart = ({ rates }: { rates: Rate[] }) => {
       },
     ],
   }
+
   return (
     <div className="relative w-full h-80">
       <Line options={options} data={data} />

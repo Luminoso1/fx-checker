@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
-import { useSearch } from '@/hooks/useSearch'
+import { useCurrencyQuery } from '@/hooks/useCurrencyQuery'
 import { Button } from '@/components/ui/button'
 import { Arrow } from '@/components/icons/arrow'
 import { Check } from '@/components/icons/check'
@@ -16,7 +16,7 @@ const Select = ({
   current: Currency
   initialCurrencies: Currency[]
 }) => {
-  const { setParam } = useSearch()
+  const { setCurrency } = useCurrencyQuery()
   const { query, currencies, setQuery } = useCurrencies(initialCurrencies)
 
   const [isOpen, setIsOpen] = useState(false)
@@ -30,12 +30,12 @@ const Select = ({
 
   const handleSelect = useCallback(
     (code: string) => {
-      setParam(param, code)
+      setCurrency(param, code)
 
       setIsOpen(false)
       setQuery('')
     },
-    [param, setQuery, setParam],
+    [param, setQuery, setCurrency],
   )
 
   // close menu with 'ESC'

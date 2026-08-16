@@ -1,13 +1,15 @@
 import { cn } from '@/lib/utils'
-import Select from './Select'
+import Select from './select'
 import { Currency } from '@/types'
 
-interface Props extends React.ComponentProps<'input'> {
+interface Props {
   label: 'send' | 'receive'
   name: 'base' | 'quote'
   value: string
+  className: string
   currency: Currency
   currencies: Currency[]
+  onChange: () => void
 }
 
 const CurrencyCard = ({

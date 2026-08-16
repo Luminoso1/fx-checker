@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils'
-import { formatCurrency } from '@/lib/financial'
+import { formatSigedDecimal } from '@/lib/formatting'
 
 interface StatCardProps {
   label: string
@@ -27,7 +27,7 @@ export const TrendValue = ({
   isPercentage = false,
 }: TrendValueProps) => {
   const isPositive = value >= 0
-  const formatted = formatCurrency(value)
+  const formatted = formatSigedDecimal(value)
   return (
     <span
       className={cn(
@@ -36,13 +36,6 @@ export const TrendValue = ({
         isPositive ? 'text-green-500' : 'text-red-500',
       )}
     >
-      {isPercentage && (
-        <span
-          className={cn('transition duration-500', isPositive ? 'rotate-0' : 'rotate-180')}
-        >
-          ▲
-        </span>
-      )}
       {formatted}
       {isPercentage && '%'}
     </span>
