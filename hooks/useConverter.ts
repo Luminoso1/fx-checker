@@ -7,6 +7,7 @@ import {
   calculateBase,
   calculateQuote,
   parseAmount,
+  sanitizeAmount,
 } from '@/lib/currency/amount'
 
 import { formatAmount } from '@/lib/formatting'
@@ -54,10 +55,12 @@ export function useConverter() {
       return
     }
 
-    if (field === 'base') {
-      setBaseInput(value)
+    const sanitizedValue = sanitizeAmount(value)
 
-      const baseAmount = parseAmount(value)
+    if (field === 'base') {
+      setBaseInput(sanitizedValue)
+
+      const baseAmount = parseAmount(sanitizedValue)
 
       if (baseAmount === null) {
         setQuoteInput('')
@@ -74,7 +77,7 @@ export function useConverter() {
       return
     }
     {
-      setQuoteInput(value)
+      setQuoteInput(sanitizedValue)
 
       const quoteAmount = parseAmount(value)
 
