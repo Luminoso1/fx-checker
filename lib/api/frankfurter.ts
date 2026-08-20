@@ -2,6 +2,8 @@ import { Currency, Rate } from '@/types'
 import { getFlagByISOCode } from '../currency/flags'
 import { MONTH_AGO } from '../days'
 
+import { formatAmount } from '../formatting'
+
 const API_BASE = 'https://api.frankfurter.dev/v2'
 
 export const getCurrencies = async () => {
@@ -51,9 +53,57 @@ export const getRate = async (
 
   if (!response.ok) throw new Error('unable to fetch exchange rate')
 
-  const data: { rate: number } = await response.json()
+  const data: Rate = await response.json()
 
   return data.rate
+}
+
+export interface Result {
+  name: string
+  code: string
+  flag: string
+  rate: number
+  amount: string
+}
+
+export const getRates = async (
+  base: string,
+  quotes: string,
+  amount = 1,
+): Promise<Result[]> => {
+  const url = `${API_BASE}/rates?base=${base}&quotes=${quotes}` // quotes=COP,USD,ALL,EUR
+
+  const [response, currencies] = await Promise.all([
+    await fetch(url, {
+      next: { revalidate: 3600000 },
+    }),
+    getCurrencies(),
+  ])
+
+  if (!response.ok) throw new Error('unable to fetch exchange rate')
+
+  const rates: Rate[] = await response.json()
+
+  const map = new Map(currencies.map((c) => [c.code, c]))
+
+  const result: Result[] = []
+
+  for (const r of rates) {
+    const found = map.get(r.quote)
+
+    if (!found) continue
+
+    result.push({
+      name: found.name,
+      code: found.code,
+      flag: found.flag,
+      rate: r.rate,
+      amount: formatAmount(r.rate * amount),
+    })
+  }
+
+  // exclude base
+  return result.filter((r) => r.code !== base)
 }
 
 export const getHistory = async (

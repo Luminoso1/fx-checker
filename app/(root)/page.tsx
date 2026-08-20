@@ -1,14 +1,10 @@
-import { Suspense } from 'react'
-import History, { type SearchParams } from '@/components/history'
+import History from '@/components/history'
+import { SearchParams } from '@/types'
 
 interface Props {
   searchParams: Promise<SearchParams>
 }
 
 export default async function Page({ searchParams }: Props) {
-  return (
-    <Suspense>
-      <History searchParams={searchParams} />
-    </Suspense>
-  )
+  return <History searchParams={searchParams} />
 }

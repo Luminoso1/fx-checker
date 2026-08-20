@@ -1,6 +1,6 @@
 // 1000 -> 1,000
 const amountFormatter = new Intl.NumberFormat('en-US', {
-  minimumFractionDigits: 2,
+  minimumFractionDigits: 0,
   maximumFractionDigits: 2,
 })
 

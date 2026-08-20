@@ -1,15 +1,9 @@
 import { Suspense } from 'react'
 import View from './view'
-import { From } from '@/types'
+import { From, SearchParams } from '@/types'
 
 import { getHistory } from '@/lib/api/frankfurter'
 import { getDate } from '@/lib/days'
-
-export interface SearchParams {
-  from?: string
-  base?: string
-  quote?: string
-}
 
 interface Props {
   searchParams: Promise<SearchParams>
@@ -27,7 +21,7 @@ async function Async({ searchParams }: Props) {
   return <View data={data} />
 }
 
-export function Skeleton() {
+function Skeleton() {
   return (
     <section className="animate-pulse">
       <div className="flex flex-col lg:flex-row justify-between lg:items-center items-start mb-5 gap-y-5">
@@ -43,7 +37,7 @@ export function Skeleton() {
   )
 }
 
-async function Wrapper({ searchParams }: Props) {
+function Wrapper({ searchParams }: Props) {
   return (
     <Suspense fallback={<Skeleton />}>
       <Async searchParams={searchParams} />

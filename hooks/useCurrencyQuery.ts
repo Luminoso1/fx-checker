@@ -6,6 +6,7 @@ const DEFAULTS = {
   quote: 'COP',
   amount: '1',
   from: '1M',
+  quotes: 'COP,EUR',
 } as const
 
 export function useCurrencyQuery() {
@@ -15,8 +16,15 @@ export function useCurrencyQuery() {
 
   const base = searchParams.get('base') ?? DEFAULTS.base
   const quote = searchParams.get('quote') ?? DEFAULTS.quote
-  const amount = searchParams.get('amount') ?? DEFAULTS.amount
+  const amount = searchParams.get('amount') || DEFAULTS.amount
   const from = searchParams.get('from') ?? DEFAULTS.from
+
+  const quotes = searchParams.get('quotes') ?? DEFAULTS.quotes
+
+  const quotesArray = quotes
+    .split(',')
+    .map((code) => code.trim().toUpperCase())
+    .filter(Boolean)
 
   function updateParams(updates: Record<string, string | null>) {
     const params = new URLSearchParams(searchParams.toString())
@@ -47,9 +55,33 @@ export function useCurrencyQuery() {
     updateParams({ from })
   }
 
+  function setQuotes(code: string) {
+    const normalizedQuote = code.trim().toUpperCase()
+
+    const nextQuotes = new Set(quotesArray)
+    if (nextQuotes.has(code)) {
+      nextQuotes.delete(code)
+    } else {
+      nextQuotes.add(normalizedQuote)
+    }
+
+    updateParams({ quotes: Array.from(nextQuotes).join(',') })
+  }
+
   const swap = () => {
     updateParams({ base: quote, quote: base })
   }
 
-  return { base, quote, from, amount, setAmount, setCurrency, setFrom, swap }
+  return {
+    base,
+    quote,
+    from,
+    amount,
+    quotes,
+    setAmount,
+    setCurrency,
+    setFrom,
+    setQuotes,
+    swap,
+  }
 }

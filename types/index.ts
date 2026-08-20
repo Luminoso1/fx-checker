@@ -1,3 +1,11 @@
+export interface SearchParams {
+  from?: string
+  base?: string
+  quote?: string
+  amount?: string
+  quotes?: string
+}
+
 export interface Currency {
   code: string
   name: string
