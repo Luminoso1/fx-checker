@@ -9,7 +9,7 @@ const API_BASE = 'https://api.frankfurter.dev/v2'
 export const getCurrencies = async () => {
   try {
     const response = await fetch(`${API_BASE}/currencies`, {
-      next: { revalidate: 86400000 },
+      next: { revalidate: 86400 }, // 24 hrs
     })
 
     if (!response.ok) return []
@@ -74,8 +74,8 @@ export const getRates = async (
   const url = `${API_BASE}/rates?base=${base}&quotes=${quotes}` // quotes=COP,USD,ALL,EUR
 
   const [response, currencies] = await Promise.all([
-    await fetch(url, {
-      next: { revalidate: 3600000 },
+    fetch(url, {
+      next: { revalidate: 3600 }, // 1hr
     }),
     getCurrencies(),
   ])
@@ -115,7 +115,7 @@ export const getHistory = async (
     const response = await fetch(
       `${API_BASE}/rates?from=${from}&base=${base}&quotes=${quote}`,
       {
-        next: { revalidate: 3600000 },
+        next: { revalidate: 3600 }, // 1hr
       },
     )
 
