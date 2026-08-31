@@ -109,7 +109,7 @@ export const getRates = async (
 export const getHistory = async (
   from = MONTH_AGO,
   base = 'USD',
-  quote = 'EUR',
+  quote = 'COP',
 ) => {
   try {
     const response = await fetch(
