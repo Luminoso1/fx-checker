@@ -1,8 +1,12 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
+
 import { useCurrencyQuery } from '@/hooks/useCurrencyQuery'
+import { useCurrencies } from '@/hooks/useCurrencies'
+
 import { Button } from '@/components/ui/button'
 import { Arrow } from '@/components/icons/arrow'
 import { Check } from '@/components/icons/check'
+
 import { cn } from '@/lib/utils'
 
 import { Currency, Field } from '@/types'
@@ -154,26 +158,6 @@ const Select = ({
       )}
     </div>
   )
-}
-
-const useCurrencies = (initial: Currency[]) => {
-  const [currencies] = useState<Currency[]>(initial || [])
-  const [query, setQuery] = useState('')
-
-  const filteredCurrencies = useMemo(() => {
-    if (!query.trim()) return currencies
-
-    const normalized = query.toLowerCase().trim()
-
-    return currencies.filter((c) => {
-      const nameMatch = c.name.toLowerCase().includes(normalized)
-      const codeMatch = c.code.toLowerCase().includes(normalized)
-
-      return nameMatch || codeMatch
-    })
-  }, [currencies, query])
-
-  return { currencies: filteredCurrencies, query, setQuery }
 }
 
 export default Select
