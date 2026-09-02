@@ -8,7 +8,7 @@ export default async function Layout({
   children: React.ReactNode
 }>) {
   return (
-    <div className="max-w-275 w-full mx-auto lg:px-8 md:px-6 px-4 pb-8 md:pb-12">
+    <div className="max-w-275 w-full mx-auto lg:px-8 md:px-6 px-4 pb-8">
       <Converter />
       <Suspense fallback={<div>loading...</div>}>
         <Navigation />
