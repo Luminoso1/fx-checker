@@ -9,11 +9,11 @@ import { useCurrencyQuery } from '@/hooks/useCurrencyQuery'
 function Menu() {
   const { from, setFrom } = useCurrencyQuery()
   return (
-    <menu className="bg-neutral-700 border border-neutral-700 rounded-lg flex">
+    <menu className="bg-neutral-700 border border-neutral-700 rounded-lg flex w-full sm:w-auto">
       {SHORT_DATE_VALUES.map((value) => {
         const isActive = from === value
         return (
-          <li key={value}>
+          <li key={value} className="flex-1">
             <Button
               type="button"
               aria-label={`search from=${value}`}

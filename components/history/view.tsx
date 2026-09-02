@@ -26,8 +26,8 @@ export default function View({ data }: { data: Rate[] }) {
   return (
     <section>
       {/* stats  & menu */}
-      <div className="flex flex-col lg:flex-row justify-between lg:items-center items-start mb-5 gap-y-5">
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-4 gap-x-4">
+      <div className="flex flex-col lg:flex-row justify-between lg:items-center items-start mb-7 md:mb-10 gap-y-5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-y-4 gap-x-4 w-full lg:w-auto">
           <StatCard label="open" value={metrics.open} />
 
           <StatCard label="last" value={metrics.last} />
@@ -47,9 +47,9 @@ export default function View({ data }: { data: Rate[] }) {
       </div>
 
       {/* chart */}
-      <div className="p-5 bg-neutral-700 border border-neutral-600 rounded-2xl">
+      <div className="p-3 md:p-5 bg-neutral-700 border border-neutral-600 rounded-2xl">
         <div className="flex items-center justify-between mb-5">
-          <p className="font-medium text-base tracking-[1px]">
+          <p className="font-medium text-sm md:text-base tracking-[1px]">
             <span>{base}</span>/<span>{quote}</span>
           </p>
           <p className="text-xs text-neutral-200 tracking-[0.5px]">

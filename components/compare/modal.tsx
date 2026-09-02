@@ -85,7 +85,7 @@ const Modal = ({
             onAnimationComplete={() => {
               if (!hasAnimated) setHasAnimated(true)
             }}
-            className="absolute top-3.5 right-10 focus-within:outline-2 outline-lime-500 focus-within:border-transparent border border-neutral-200 rounded-md px-3 flex gap-2.5 items-center"
+            className="absolute left-6 sm:left-auto top-4 right-10 focus-within:outline-2 outline-lime-500 focus-within:border-transparent border border-neutral-200 rounded-md px-3 flex gap-2.5 items-center"
           >
             <span aria-hidden="true">🔍️</span>
             <input
@@ -93,7 +93,14 @@ const Modal = ({
               type="text"
               aria-label="Search currencies by name or code"
               placeholder="Search currencies..."
-              className="flex-1 p-1 outline-none placeholder:text-xs"
+              className={cn(
+                'min-w-0 flex-1',
+                'bg-transparent',
+                'p-1',
+                'text-sm text-neutral-100',
+                'outline-none',
+                'placeholder:text-xs',
+              )}
               value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
@@ -116,7 +123,7 @@ const Modal = ({
               variants={!hasAnimated ? containerVariants : undefined}
               initial={!hasAnimated ? 'hidden' : false}
               animate="visible"
-              className="grid grid-cols-4 auto-rows-10 gap-4 overflow-y-auto h-105 p-1"
+              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-10 gap-4 overflow-y-auto h-105 p-1"
             >
               {currencies.map(({ code, name, flag }) => {
                 const isActive = quotes.includes(code)

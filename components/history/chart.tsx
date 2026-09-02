@@ -72,9 +72,9 @@ const options: ChartOptions<'line'> = {
       grid: { display: true },
       ticks: {
         color: '#9D9D9D',
-        maxTicksLimit: 5,
+        maxTicksLimit: 3,
         maxRotation: 0,
-        padding: 16,
+        padding: 0,
         align: 'inner',
         includeBounds: true,
         callback: function (value, index) {

@@ -30,19 +30,21 @@ const List = ({ rates }: { rates: Result[] }) => {
           className="bg-neutral-600 border border-neutral-500 rounded-xl flex items-center justify-between py-3 px-4"
         >
           <div className="flex items-center gap-5">
-            <span className="text-xl">{flag}</span>
+            <span className="text-base md:text-xl">{flag}</span>
             <div>
               <span className="block text-sm">{code}</span>
               <p className="text-xs text-neutral-200">{name}</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2.5 md:gap-5">
             <div className="text-right">
               <span className="block">{amount}</span>
-              <span className="inline text-xs text-neutral-200">@ {rate}</span>
+              <span className="inline text-[10px] text-neutral-200">
+                @ {rate}
+              </span>
             </div>
-            <Button className="border border-neutral-300 size-10 grid place-content-center">
+            <Button className="border border-neutral-300 size-8 md:size-10 grid place-content-center">
               <svg
                 width="16"
                 height="16"

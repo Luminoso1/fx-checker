@@ -19,10 +19,10 @@ function Compare({ base, amount, rates, currencies, quotes }: Props) {
   const pairsLength = rates.length
 
   return (
-    <div className="relative bg-neutral-700 border border-neutral-600 rounded-2xl p-5 h-130">
+    <div className="relative bg-neutral-700 border border-neutral-600 rounded-2xl p-4 md:p-5 h-130">
       <div className="flex items-center justify-between mb-5">
         <div className="flex items-center gap-5">
-          <p className="text-neutral-200 uppercase tracking-[1px] text-sm">
+          <p className="hidden sm:block text-neutral-200 uppercase tracking-[1px] text-sm">
             MULTI-CURRENCY
           </p>
           <p className="uppercase tracking-[1px] text-base">
